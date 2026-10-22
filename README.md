@@ -1,124 +1,50 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Dict, List, Any
+# FloodWatch AI
 
-app = FastAPI(title="FloodWatch AI API", version="0.1.0")
+FloodWatch AI is a disaster coordination prototype for geolocated flood and landslide response intelligence. It is designed as a decision-support dashboard and is not a real emergency dispatch system.
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+## Repository structure
 
+- `frontend/` - React + TypeScript + Vite + Tailwind dashboard
+- `backend/` - FastAPI backend with SQLite + SQLAlchemy-ready scaffolding and route graph logic
+- `docs/` - design system notes and data-source limitations
+- `.env.example` - environment template
 
-class Incident(BaseModel):
-    id: str
-    title: str
-    category: str
-    severity: str
-    status: str
-    confidence: float
-    source: str
-    freshness_minutes: int
-    lat: float
-    lng: float
-    description: str
+## Phase summary
 
+- Phase 1: project scaffolding, dark ops shell, map layout, simulated incident data
+- Phase 2: closure-aware routing graph, route comparison, no-safe-route handling
+- Phase 3: healthcare coordination, priority rules, resource status, roles and audit concept
+- Phase 4: AI modules with graceful fallback, image classification, duplicate detection, confidence labels
+- Phase 5: guided demo mode, automated tests, evaluation page, README and limitations
 
-@app.get("/health")
-def health() -> Dict[str, str]:
-    return {"status": "ok", "service": "FloodWatch AI backend"}
+## Run locally
 
+### Frontend
 
-@app.get("/api/dashboard")
-def dashboard() -> Dict[str, Any]:
-    return {
-        "banner": "Simulated demo data — not real emergency information. In a real emergency contact official services.",
-        "summary": {
-            "activeWarnings": 3,
-            "roadBlocks": 2,
-            "medicalRequests": 4,
-            "reliefCenters": 5,
-        },
-        "incidents": [
-            {
-                "id": "INC-1001",
-                "title": "Flooding near River Road",
-                "category": "Flood",
-                "severity": "High",
-                "status": "Awaiting verification",
-                "confidence": 0.82,
-                "source": "Public report",
-                "freshness": "12 min ago",
-                "lat": 23.0225,
-                "lng": 72.5714,
-                "description": "Standing water reported over half the carriageway after intense rainfall.",
-            },
-            {
-                "id": "INC-1002",
-                "title": "Landslide warning on Hill Link Road",
-                "category": "Landslide",
-                "severity": "Medium",
-                "status": "Reported hazard",
-                "confidence": 0.71,
-                "source": "Model prediction",
-                "freshness": "19 min ago",
-                "lat": 23.0284,
-                "lng": 72.5657,
-                "description": "Loose debris and soil slip observed near the road shoulder.",
-            },
-            {
-                "id": "INC-1003",
-                "title": "Bridge access partially open",
-                "category": "Road",
-                "severity": "Low",
-                "status": "Open according to available information",
-                "confidence": 0.64,
-                "source": "Officially confirmed",
-                "freshness": "27 min ago",
-                "lat": 23.0305,
-                "lng": 72.5798,
-                "description": "Single-lane access remains open with caution; no safe guarantee.",
-            },
-        ],
-    }
+```bash
+cd frontend
+npm install
+npm run dev -- --host 0.0.0.0
+```
 
+### Backend
 
-@app.get("/api/incidents")
-def list_incidents() -> List[Incident]:
-    return [
-        Incident(
-            id="INC-1001",
-            title="Flooding near River Road",
-            category="Flood",
-            severity="High",
-            status="Awaiting verification",
-            confidence=0.82,
-            source="Public report",
-            freshness_minutes=12,
-            lat=23.0225,
-            lng=72.5714,
-            description="Standing water reported over half the carriageway after intense rainfall.",
-        ),
-        Incident(
-            id="INC-1002",
-            title="Landslide warning on Hill Link Road",
-            category="Landslide",
-            severity="Medium",
-            status="Reported hazard",
-            confidence=0.71,
-            source="Model prediction",
-            freshness_minutes=19,
-            lat=23.0284,
-            lng=72.5657,
-            description="Loose debris and soil slip observed near the road shoulder.",
-        ),
-    ]
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
 
+## Environment variables
 
-@app.get("/api/seed")
-def seed_demo() -> Dict[str, str]:
-    return {"status": "ok", "message": "Demo data loaded for Phase 1"}
+Copy `.env.example` to `.env` and update as needed.
+
+## Limitations
+
+This prototype is decision support only. It does not dispatch teams, guarantee safe routes, or replace official authorities.
+
+## Data sources and limitations
+
+The app is intentionally simulated and documents source limitations. See `docs/data-sources-limitations.md` and `docs/design-system.md`.

@@ -1,17 +1,16 @@
-# Data Sources & Limitations
+# Design System
 
-All demonstration data in FloodWatch AI is simulated unless explicitly noted otherwise. This prototype is not an operational emergency system and must not be treated as live data.
+## Visual language
 
-## Referenced authorities and sources
+- Dark mode default with slate/navy surfaces
+- Foreground accents in teal and electric blue
+- Semantic status palette: red for confirmed closure, amber for unverified, green for open, purple/orange for uncertain, grey for stale data
+- Inter for interface text; JetBrains Mono for IDs and timestamps
+- 8px spacing grid, 12–16px radii, soft glass cards
 
-- CWC FloodWatch — simulated or manually updated only; no live public API assumed.
-- IMD — simulated or manually updated only; no live public API assumed.
-- ISRO/NRSC — simulated or manually updated only; no live public API assumed.
-- State disaster authorities — manually updated / operational data only; not assumed to be API-accessible.
+## Interaction principles
 
-## Important limits
-
-- No claim is made that the system improves real rescue outcomes.
-- All coordinates and alerts are fictional or demo data.
-- Road closures and route safety are informational only and never guaranteed.
-- Human responders remain responsible for triage decisions.
+- Always pair status color with icon, text, and line style
+- Never imply a route is safe when the route is only available according to available information
+- Clear fresh-state and source badges for each incident
+- Smooth transitions and mobile-friendly panels
